@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" type="text/css">
+<!-- <link rel="stylesheet" href="/static/theme.css" type="text/css"> -->
+<html>
+<!-- <style>
+		body {
+		  background-image: url('/static/bg.jpg');
+		  background-repeat: no-repeat;
+		  background-attachment: fixed;
+		  background-size: cover;
+		}
+</style> -->
+<!-- <HTML xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"> -->
+    <!-- <HEAD> -->
+        <TITLE> String Formatter</TITLE>
+
+    <BODY>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li>
+                  <a style="font-size:15; color:green; font-family: Helvetica, Arial, sans-serif;"
+                  href="#">Home</a></li>
+            </ul>
+        </div>
+
+            <table align="center" border="0" cellPadding="0" cellSpacing="1" width="65%">
+                <TR>
+                    <TD colspan="2" align="center">
+                        <font face="Verdana" color="green" size="5">
+                            <b>String Formatter</b>
+                        </font>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD height="4">
+                    </TD>
+                    <TD>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD align="left" width="30%">
+                        <font face="Verdana" color="black" size="2">
+                            <b>Please select one of the options:</b>
+                        </font>
+                    </TD>
+                    <TD>
+                        <table align="center" border="0" cellPadding="0" cellSpacing="1" width="100%">
+                            <tr>
+                                <td>
+                                    <input type="radio" name="select" id="select" value="A" CHECKED><font color="black" face="Verdana" size="2">Generating values for IN clause in WHERE (</font>
+                                    <input type="radio" name="datatype" id="datatype1" value="AA" CHECKED><font color="black" face="Verdana" size="2">Number</font>
+                                    <input type="radio" name="datatype" id="datatype2" value="AB">
+                                    <font color="black" face="Verdana" size="2">String)
+                                        <a href="javascript:help_option()" >ReadMe</a>
+                                    </font>
+                                </td>
+                            </tr>
+
+                    </table>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                    </TD>
+                    <TD>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD align="center">
+                        <font face="Verdana" color="black" size="5">
+                            <b>Input String:</b>
+                        </font>
+                    </TD>
+                    <TD>
+                        <textarea id="str1" rows="12" cols="60"></textarea>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                    </TD>
+                    <TD>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                    </TD>
+                    <TD>
+                            <input type="button" value="Format" name="generate" onClick="generate()">
+                            <input type="button" value="Reset" name="reset" onClick="clean()">
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                    </TD>
+                    <TD>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD align="center">
+                        <font color="black" face="Verdana" size="5">
+                            <b>Output String:</b>
+                        </font>
+                    </TD>
+                    <TD>
+                        <textarea id="str2" rows="12" cols="60" readonly></textarea>
+                    </TD>
+                </TR>
+            </table>
+
+
+    </BODY>
+
+    <script>
+
+        function generate()
+            {
+                var inputstring = document.getElementById("str1").value;
+                // alert(inputstring);
+                var convertedstring = "";
+            if (document.getElementById("select").checked)
+                {
+                    //convert all delimiters to pipe
+                    inputstring = inputstring.replace(/\t/g, "|");		//TAB
+                    inputstring = inputstring.replace(/ /g, "|");		//Single Space
+                    inputstring = inputstring.replace(/\r\n/g,"|");		//line break
+                    inputstring = inputstring.replace(/,/g,"|");		//Comma
+                    inputstring = inputstring.replace(/\r\n|\r|\n/g,"|");	//line break W/o space
+                    // alert(inputstring);
+                for (i=0; i<inputstring.length; i++)
+                    {
+                        char = inputstring.charAt(i);
+                        if ((char == "|"))
+                        {
+                            if (i == (inputstring.length - 1))
+                            {
+                            }
+                            else
+                            {
+                                if (inputstring.charAt(i+1)== "|")
+                                {
+                                }
+                                else
+                                {
+                                    if (document.getElementById("datatype1").checked)
+                                    {
+                                        convertedstring += ",";
+                                    }
+                                    else
+                                    {
+                                        convertedstring += "','";
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            convertedstring += char;
+                        }
+                    }
+                if (document.getElementById("datatype1").checked)
+                    {
+                        convertedstring = convertedstring ;
+                    }
+                else
+                    {
+                        convertedstring = "('" + convertedstring + "')";
+                    }
+                    document.getElementById("str2").value=convertedstring;
+                }
+
+        }
+        function clean()
+            {
+                document.getElementById("str1").value="";
+                document.getElementById("str2").value="";
+                document.getElementById("select").checked = true;
+                document.getElementById("datatype1").checked = true;
+            }
+
+        function help_option()
+            {
+                txt="A  ";
+                txt+="\r\n(DESCRIPTION= ";
+                txt="These options will help to generate the IN clause for: new line separated ID's, pipe separated ID's, comma separated ID's and space separated ID's";
+                txt+="\r\n";
+                txt+="\r\n For e.g. we have the following values:";
+                txt+="\r\n";
+                txt+="\r\n100";
+                txt+="\r\n200";
+                txt+="\r\n300";
+                txt+="\r\n400";
+                txt+="\r\n500";
+                txt+="\r\n";
+                txt+="\r\nCopy the values from excel and paste in the input text area and click Format button.";
+                txt+="\r\nThis option will generate string as (100,200,300,400,500) which can easily be used in the SQL IN clause."
+                txt+="\r\n";
+                txt+="\r\nIf the datatype is String, the String radio button should be selected and the generated string will be like below."
+                txt+="\r\n('100','200','300','400','500')";
+                alert(txt);
+            }
+
+    </script>
+    <!--[if gte mso 9]><xml>
+    <mso:CustomDocumentProperties>
+    <mso:ContentType msdt:dt="string">Document</mso:ContentType>
+    </mso:CustomDocumentProperties>
+    </xml><![endif]-->
+    <!-- </HEAD> -->
+</HTML>
